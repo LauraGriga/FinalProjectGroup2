@@ -16,6 +16,7 @@ public class Main {
                     scanner.nextLine();
 
                     if(option == 't'){
+                        //Getting information from user
                         System.out.println("Please enter amount of adults");
                         int adults = scanner.nextInt();
                         scanner.nextLine();
@@ -24,10 +25,30 @@ public class Main {
                         int children = scanner.nextInt();
                         scanner.nextLine();
 
-                        System.out.println("Please enter student's name");
-                        String name = scanner.nextLine();
+                        System.out.println("Please enter date from (dd-mm-yyyy)");
+                        String dateFrom = scanner.nextLine();
+                        scanner.nextLine();
 
-                        calculatePrice(adults,children);
+                        System.out.println("Please enter date to (dd-mm-yyyy)");
+                        String dateTo = scanner.nextLine();
+                        scanner.nextLine();
+
+                        System.out.println("Please enter destination country");
+                        // Maybe need to allow to choose from list or if we do not have this country what output will be shown
+                        String destination = scanner.nextLine();
+                        scanner.nextLine();
+
+                        System.out.println("Do you have Covid Pass certificate(y/n)");
+                        char covidPass = scanner.next().charAt(0);
+                        scanner.nextLine();
+
+                        // There should be lines which will write data in History table
+                        // (Maybe we should call another method which will do this)
+
+
+                        //returning information for user
+                        calculatePrice(adults,children, dateFrom, dateTo, destination, covidPass);
+
                     }  else if (option == 'v'){
                         viewHistoryInformation();
                     } else {
@@ -42,7 +63,7 @@ public class Main {
 
             }
 
-    static void calculatePrice(int adults, int children){
+    static void calculatePrice(int adults, int children, String dateFrom, String dateTo, String destination, char covidPass){
         // JDBC driver name and database URL
         final String JDBC_DRIVER = "org.h2.Driver";
         final String DB_URL = "jdbc:h2:~/test";
@@ -62,10 +83,14 @@ public class Main {
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
             System.out.println("Connected database successfully...");
 
-            // STEP 3: Execute a query
-            stmt = conn.createStatement();
-            String sql = "INSERT INTO students (sid, name) VALUES(" + sid + ", '" + name + "');";
-            stmt.executeUpdate(sql);
+            // How we can call data from Table Destination and Flights????
+
+            // There will be formula who calculates trip expenses
+
+//            // STEP 3: Execute a query
+//            stmt = conn.createStatement();
+//            String sql = "INSERT INTO students (sid, name) VALUES(" + sid + ", '" + name + "');";
+//            stmt.executeUpdate(sql);
 
             System.out.println("Inserted records into students table...");
 
@@ -117,6 +142,7 @@ public class Main {
                     // STEP 3: Execute a query
                     System.out.println("Connected database successfully...");
                     stmt = conn.createStatement();
+                    // There need to update query with data from History table which will be made
                     String sql = "SELECT * FROM students";
                     ResultSet rs = stmt.executeQuery(sql);
 
