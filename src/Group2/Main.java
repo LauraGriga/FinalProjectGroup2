@@ -42,6 +42,7 @@ public class Main {
 
             }
 
+
     static void calculatePrice(int adults, int children){
         // JDBC driver name and database URL
         final String JDBC_DRIVER = "org.h2.Driver";
@@ -64,8 +65,8 @@ public class Main {
 
             // STEP 3: Execute a query
             stmt = conn.createStatement();
-            String sql = "INSERT INTO students (sid, name) VALUES(" + sid + ", '" + name + "');";
-            stmt.executeUpdate(sql);
+        //    String sql = "INSERT INTO students (sid, name) VALUES(" + sid + ", '" + name + "');";
+         //   stmt.executeUpdate(sql);
 
             System.out.println("Inserted records into students table...");
 
