@@ -17,6 +17,7 @@ public class Main {
 
                     if(option == 't'){
                         //Getting information from user
+                        //test
 
                         System.out.println("Please choose destination country (.......)");
                         String destination = scanner.nextLine();
