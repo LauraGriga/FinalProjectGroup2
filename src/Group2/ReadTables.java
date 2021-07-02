@@ -1,2 +1,3 @@
-package Group2;public class ReadTables {
+package Group2;
+public class ReadTables {
 }
