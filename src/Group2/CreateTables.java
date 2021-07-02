@@ -5,8 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
- class CreateDestination {
+ class CreateTables {
     // JDBC driver name and database URL
+
     static final String JDBC_DRIVER = "org.h2.Driver";
     static final String DB_URL = "jdbc:h2:~/test";
 
@@ -29,7 +30,7 @@ import java.sql.Statement;
             System.out.println("Creating table in given database...");
             stmt = conn.createStatement();
             String sql =  "CREATE TABLE DESTINATION" +
-                    "(id INTEGER not NULL, " +
+                    "(id INTEGER not NULL AUTO_INCREMENT, " +
                     " country VARCHAR(255), " +
                     " covidPass BOOLEAN, " +
                     " generalPrice DECIMAL, " +
@@ -41,7 +42,7 @@ import java.sql.Statement;
             System.out.println("Creating 2nd table in given database...");
             stmt = conn.createStatement();
             String sql1 =  "CREATE TABLE FLIGHTS" +
-                    "(id INTEGER not NULL, " +
+                    "(id INTEGER not NULL AUTO_INCREMENT, " +
                     " countryID INTEGER NOT NULL REFERENCES DESTINATION(id), " +
                     " dateTo DATE, " +
                     " dateFrom DATE, " +
