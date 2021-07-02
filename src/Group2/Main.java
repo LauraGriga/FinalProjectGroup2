@@ -17,6 +17,24 @@ public class Main {
 
                     if(option == 't'){
                         //Getting information from user
+
+                        System.out.println("Please choose destination country (.......)");
+                        String destination = scanner.nextLine();
+                        scanner.nextLine();
+
+                        // 1.  Need to transform information to small caps
+                        // 2. Need to check does we have this destination in DB table Destinations
+                          // 2.1. If yes then asks next questions
+                          // 2.2. If not returns output that we cant provide trip to this country
+
+                        System.out.println("Do you have Covid Pass certificate(y/n)");
+                        char covidPass = scanner.next().charAt(0);
+                        scanner.nextLine();
+
+                        //1. Need to check destination country requirements
+                        // 1.1 if equal then ask next questions
+                        // 1.2 if not equal then return output "Sorry you cant travel to this country"
+
                         System.out.println("Please enter amount of adults");
                         int adults = scanner.nextInt();
                         scanner.nextLine();
@@ -26,6 +44,7 @@ public class Main {
                         scanner.nextLine();
 
                         System.out.println("Please enter date from (dd-mm-yyyy)");
+                        // Need to find format that helps calculate days between dates
                         String dateFrom = scanner.nextLine();
                         scanner.nextLine();
 
@@ -33,21 +52,11 @@ public class Main {
                         String dateTo = scanner.nextLine();
                         scanner.nextLine();
 
-                        System.out.println("Please enter destination country");
-                        // Maybe need to allow to choose from list or if we do not have this country what output will be shown
-                        String destination = scanner.nextLine();
-                        scanner.nextLine();
-
-                        System.out.println("Do you have Covid Pass certificate(y/n)");
-                        char covidPass = scanner.next().charAt(0);
-                        scanner.nextLine();
+                        //returning information for user
+                        calculatePrice(adults,children, dateFrom, dateTo, destination, covidPass);
 
                         // There should be lines which will write data in History table
                         // (Maybe we should call another method which will do this)
-
-
-                        //returning information for user
-                        calculatePrice(adults,children, dateFrom, dateTo, destination, covidPass);
 
                     }  else if (option == 'v'){
                         viewHistoryInformation();
@@ -64,6 +73,8 @@ public class Main {
             }
 
     static void calculatePrice(int adults, int children, String dateFrom, String dateTo, String destination, char covidPass){
+
+
         // JDBC driver name and database URL
         final String JDBC_DRIVER = "org.h2.Driver";
         final String DB_URL = "jdbc:h2:~/test";
@@ -83,6 +94,7 @@ public class Main {
             conn = DriverManager.getConnection(DB_URL,USER,PASS);
             System.out.println("Connected database successfully...");
 
+
             // How we can call data from Table Destination and Flights????
 
             // There will be formula who calculates trip expenses
@@ -91,6 +103,12 @@ public class Main {
 //            stmt = conn.createStatement();
 //            String sql = "INSERT INTO students (sid, name) VALUES(" + sid + ", '" + name + "');";
 //            stmt.executeUpdate(sql);
+
+            // STEP 3: Execute a query
+            stmt = conn.createStatement();
+        //    String sql = "INSERT INTO students (sid, name) VALUES(" + sid + ", '" + name + "');";
+         //   stmt.executeUpdate(sql);
+
 
             System.out.println("Inserted records into students table...");
 
@@ -142,6 +160,7 @@ public class Main {
                     // STEP 3: Execute a query
                     System.out.println("Connected database successfully...");
                     stmt = conn.createStatement();
+
                     // There need to update query with data from History table which will be made
                     String sql = "SELECT * FROM students";
                     ResultSet rs = stmt.executeQuery(sql);
