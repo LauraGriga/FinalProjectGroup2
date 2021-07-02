@@ -46,7 +46,7 @@ import java.sql.Statement;
                     " countryID INTEGER NOT NULL REFERENCES DESTINATION(id), " +
                     " dateTo DATE, " +
                     " dateFrom DATE, " +
-                    " generalPrice DECIMAL, " +
+                    " adultPrice DECIMAL, " +
                     " childrenPrice DECIMAL, " +
                     " PRIMARY KEY (id))";
             stmt.executeUpdate(sql1);
