@@ -52,6 +52,20 @@ import java.sql.Statement;
             stmt.executeUpdate(sql1);
             System.out.println("Created 2nd table in given database...");
 
+            System.out.println("Creating 3nd table in given database...");
+            stmt = conn.createStatement();
+            String sql1 =  "CREATE TABLE HISTORY" +
+                    "(id INTEGER not NULL AUTO_INCREMENT, " +
+                    " country  VARCHAR(255) " +
+                    " adults INT, " +
+                    " children INT, " +
+                    " dateTO DATE, " +
+                    " dateFrom DATE, " +
+                    " calculatedPrice DECIMAL, " +
+                    " PRIMARY KEY (id))";
+            stmt.executeUpdate(sql1);
+            System.out.println("Created 3nd table in given database...");
+
             // STEP 4: Clean-up environment
             stmt.close();
             conn.close();
