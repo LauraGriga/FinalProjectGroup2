@@ -1,10 +1,24 @@
 package Group2;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class ConnectionDB {
+    public int adults;
+    public int children;
+    public String dataFrom;
+    public String dateTo;
+    public String destination;
+    public char covidPass;
+    public long generalprice;
+    public long bulkprice;
+    public long adultPrice;
+    public long childrenPrice;
 
-    static void calculatePrice(int adults, int children, String dateFrom, String dateTo, String destination, char covidPass){
+
+    public void calculatePrice(int adults, int children, String dateFrom, String dateTo, String destination, char covidPass, long generalprice,
+            long bulkprice, long adultPrice, long childrenPrice){
 
 
         // JDBC driver name and database URL
@@ -31,18 +45,42 @@ public class ConnectionDB {
 
             // There will be formula who calculates trip expenses
 
-//            // STEP 3: Execute a query
-//            stmt = conn.createStatement();
-//            String sql = "INSERT INTO students (sid, name) VALUES(" + sid + ", '" + name + "');";
-//            stmt.executeUpdate(sql);
 
             // STEP 3: Execute a query
             stmt = conn.createStatement();
-            //    String sql = "INSERT INTO students (sid, name) VALUES(" + sid + ", '" + name + "');";
-            //   stmt.executeUpdate(sql);
+            String sql = "SELECT id, country, covidpass, generalprice, bulkprice FROM destinations;" +
+                    "SELECT countryID ,dateTo, dateFrom, adultPrice, childrenPrice FROM flights;";
 
+            stmt.executeUpdate(sql);
+            this.adults = adults;
+            this.children = children;
 
-            System.out.println("Inserted records into students table...");
+            //dates is asked in main with scanner, not in table, but formula is in table class???
+            this.dataFrom = dateFrom;
+            this.dateTo = dateTo;
+            this.destination = destination;
+            this.covidPass = covidPass;
+            this.generalprice = generalprice;
+            this.bulkprice = bulkprice;
+            this.adultPrice = adultPrice;
+            this.childrenPrice = childrenPrice;
+
+            //Parsing the date
+            LocalDate dateBefore = LocalDate.parse(dateFrom);
+            LocalDate dateAfter = LocalDate.parse(dateTo);
+            //calculating number of days in between
+            long tripDays = ChronoUnit.DAYS.between(dateBefore, dateAfter);
+            //displaying the number of days
+            System.out.println(tripDays);
+
+            double travelPrice;
+     if (tripDays < 5) {
+         travelPrice = (adultPrice * adults) + (childrenPrice * children) + (tripDays* generalprice);
+    } else {
+        travelPrice = (adultPrice * adults) + (childrenPrice * children) + (tripDays* bulkprice);
+    }
+            System.out.println("Your travel will cost: " + travelPrice);
+
 
             // STEP 4: Clean-up environment
             stmt.close();
