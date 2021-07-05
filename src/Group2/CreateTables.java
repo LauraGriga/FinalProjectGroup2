@@ -56,7 +56,7 @@ import java.sql.Statement;
             stmt = conn.createStatement();
             String sql2 =  "CREATE TABLE HISTORY" +
                     "(id INTEGER not NULL AUTO_INCREMENT, " +
-                    " country  VARCHAR(255) " +
+                    " country VARCHAR(255), " +
                     " adults INT, " +
                     " children INT, " +
                     " dateTO DATE, " +
