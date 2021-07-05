@@ -57,13 +57,13 @@ public class Main {
                 scanner.nextLine();
 
                 //returning information for user
-                // calculatePrice(adults,children, dateFrom, dateTo, destination, covidPass);
+                ConnectionDB.calculatePrice(destination, adults, children, dateFrom, dateTo);
 
                 // There should be lines which will write data in History table
                 // (Maybe we should call another method which will do this)
 
             } else if (option == 'v') {
-                // viewHistoryInformation();
+                ConnectionDB.viewHistoryInformation();
             } else {
                 System.out.println("Input was not valid.");
             }

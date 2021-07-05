@@ -5,21 +5,20 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class ConnectionDB {
-    public int adults;
-    public int children;
-    public String dataFrom;
-    public String dateTo;
-    public String destination;
-    public char covidPass;
-    public long generalprice;
-    public long bulkprice;
-    public long adultPrice;
-    public long childrenPrice;
+//    public int adults;
+//    public int children;
+//    public String dataFrom;
+//    public String dateTo;
+//    public String destination;
+//    public char covidPass;
+//    public long generalprice;
+//    public long bulkprice;
+//    public long adultPrice;
+//    public long childrenPrice;
 
 
-    public void calculatePrice(int adults, int children, String dateFrom, String dateTo, String destination, char covidPass, long generalprice,
-            long bulkprice, long adultPrice, long childrenPrice){
-
+    public static void calculatePrice(String destination,int adults, int children, String dateFrom, String dateTo){
+//public static void calculatePrice(String destination,int adults, int children, String dateFrom, String dateTo) these is from Main
 
         // JDBC driver name and database URL
         final String JDBC_DRIVER = "org.h2.Driver";
@@ -48,22 +47,27 @@ public class ConnectionDB {
 
             // STEP 3: Execute a query
             stmt = conn.createStatement();
-            String sql = "SELECT id, country, covidpass, generalprice, bulkprice FROM destinations;" +
+            String sql = "SELECT id, country, generalprice, bulkprice FROM destinations;" +
                     "SELECT countryID ,dateTo, dateFrom, adultPrice, childrenPrice FROM flights;";
 
-            stmt.executeUpdate(sql);
-            this.adults = adults;
-            this.children = children;
+            // May be we need to get data from DB with queries in this way???
+            String adultPrice = "SELECT adultPrice FROM flights Where countryID="+
+                    ("SELECT id FROM destinations WHERE country="+destination);
 
-            //dates is asked in main with scanner, not in table, but formula is in table class???
-            this.dataFrom = dateFrom;
-            this.dateTo = dateTo;
-            this.destination = destination;
-            this.covidPass = covidPass;
-            this.generalprice = generalprice;
-            this.bulkprice = bulkprice;
-            this.adultPrice = adultPrice;
-            this.childrenPrice = childrenPrice;
+            stmt.executeUpdate(sql);
+
+//            this.adults = adults;
+//            this.children = children;
+//
+//            //dates is asked in main with scanner, not in table, but formula is in table class???
+//            this.dataFrom = dateFrom;
+//            this.dateTo = dateTo;
+//            this.destination = destination;
+////            this.covidPass = covidPass; We dont need this here!
+//            this.generalprice = generalprice;
+//            this.bulkprice = bulkprice;
+//            this.adultPrice = adultPrice;
+//            this.childrenPrice = childrenPrice;
 
             //Parsing the date
             LocalDate dateBefore = LocalDate.parse(dateFrom);
@@ -80,6 +84,7 @@ public class ConnectionDB {
         travelPrice = (adultPrice * adults) + (childrenPrice * children) + (tripDays* bulkprice);
     }
             System.out.println("Your travel will cost: " + travelPrice);
+
 
 
             // STEP 4: Clean-up environment
@@ -104,6 +109,7 @@ public class ConnectionDB {
             } // end finally try
         } // end try
         System.out.println("Goodbye!");
+        return;
     }
 
     public static void viewHistoryInformation (){
@@ -137,6 +143,7 @@ public class ConnectionDB {
 
             // STEP 4: Extract data from result set
             while(rs.next()) {
+
                 // Retrieve by column name
                 int sid  = rs.getInt("sid");
                 String name = rs.getString("name");
@@ -146,6 +153,7 @@ public class ConnectionDB {
                 System.out.print("ID: " + sid);
                 System.out.print(", Name: " + name);
                 System.out.println();
+                return;
 
             }
 
