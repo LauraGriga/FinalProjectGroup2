@@ -59,9 +59,6 @@ public class Main {
                 //returning information for user
                 ConnectionDB.calculatePrice(destination, adults, children, dateFrom, dateTo);
 
-                // There should be lines which will write data in History table
-                // (Maybe we should call another method which will do this)
-
             } else if (option == 'v') {
                 ConnectionDB.viewHistory();
             } else {

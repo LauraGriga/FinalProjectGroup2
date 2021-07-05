@@ -105,13 +105,6 @@ public class DataValidation {
             } else {
                 isValid = false;
             }
-//            while (rs.next()) {
-//                int id = rs.getInt("id");
-//                return true;
-//
-////                // Display values
-////                System.out.print("ID: " + id);
-//            }
 
             // STEP 4: Clean-up environment
             stmt.close();
@@ -135,7 +128,6 @@ public class DataValidation {
             } // end finally try
         } // end try
         System.out.println("Goodbye!");
-//        return false;
         return isValid;
     }
     public static boolean getCovidPassValidation(String covidPass,String country) {
@@ -194,7 +186,6 @@ public class DataValidation {
         } // end try
         System.out.println("Goodbye!");
 
-        //was mistake if there isnt return
         return false;
     }
 }

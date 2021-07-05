@@ -31,8 +31,6 @@ public class ConnectionDB {
 
             // STEP 3: Execute a query
             stmt = conn.createStatement();
-//            String sql = "SELECT id, country, generalprice, bulkprice FROM destinations;" +
-//                    "SELECT countryID ,dateTo, dateFrom, adultPrice, childrenPrice FROM flights;";
 
             // Getting Adult price from DB Flights
             String getAdultPriceSQL = "SELECT adultPrice FROM flights Where countryID=" +
@@ -53,19 +51,6 @@ public class ConnectionDB {
             // Getting Bulk price from DB Destination
             String getBulkPriceSQL = "SELECT bulkprice FROM Destination Where destination=" + destination;
             int bulkPrice = stmt.executeUpdate(getGeneralPriceSQL);
-
-//            this.adults = adults;
-//            this.children = children;
-//
-//            //dates is asked in main with scanner, not in table, but formula is in table class???
-//            this.dataFrom = dateFrom;
-//            this.dateTo = dateTo;
-//            this.destination = destination;
-////            this.covidPass = covidPass; We dont need this here!
-//            this.generalprice = generalprice;
-//            this.bulkprice = bulkprice;
-//            this.adultPrice = adultPrice;
-//            this.childrenPrice = childrenPrice;
 
             //Parsing the date
             LocalDate dateBefore = LocalDate.parse(dateFrom);
