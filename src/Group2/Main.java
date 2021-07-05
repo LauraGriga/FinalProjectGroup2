@@ -23,17 +23,17 @@ public class Main {
 
                 //Validates do we provide this destination
 
-                if (DataValidation.getDestinationValidation(destination)==true){
+                if (DataValidation.getDestinationValidation(destination)){
                     scanner.nextLine();
                 } else{
-                    System.out.println("Sorry, we cant provide trip to this destination");
+                    System.out.println("Sorry, we cant provide trip to this destination!");
                 }
 
                 System.out.println("Do you have Covid Pass certificate(TRUE/FALSE)");
                 String covidPass = scanner.next().toUpperCase().trim();
 
                 //Validates CovidPass requirements
-                if(DataValidation.getCovidPassValidation(covidPass, destination)==true){
+                if(DataValidation.getCovidPassValidation(covidPass, destination)){
                 scanner.nextLine();
                 }else{
                     System.out.println("Sorry, you cant travel to this destination without CovidPass certification!");
@@ -63,7 +63,7 @@ public class Main {
                 // (Maybe we should call another method which will do this)
 
             } else if (option == 'v') {
-                ConnectionDB.viewHistoryInformation();
+                ConnectionDB.viewHistory();
             } else {
                 System.out.println("Input was not valid.");
             }

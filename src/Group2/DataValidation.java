@@ -78,6 +78,7 @@ public class DataValidation {
         //  Database credentials
         final String USER = "sa";
         final String PASS = "";
+        boolean isValid = false;
 
         Connection conn = null;
         Statement stmt = null;
@@ -99,13 +100,18 @@ public class DataValidation {
             System.out.println("GET records from the table...");
 
             // While in table is ID then Destination is in table and returns true
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                return true;
-
-//                // Display values
-//                System.out.print("ID: " + id);
+            if (rs.next()){
+                isValid =  true;
+            } else {
+                isValid = false;
             }
+//            while (rs.next()) {
+//                int id = rs.getInt("id");
+//                return true;
+//
+////                // Display values
+////                System.out.print("ID: " + id);
+//            }
 
             // STEP 4: Clean-up environment
             stmt.close();
@@ -129,7 +135,8 @@ public class DataValidation {
             } // end finally try
         } // end try
         System.out.println("Goodbye!");
-        return false;
+//        return false;
+        return isValid;
     }
     public static boolean getCovidPassValidation(String covidPass,String country) {
         // JDBC driver name and database URL
