@@ -18,22 +18,26 @@ public class Main {
             if (option == 't') {
                 //Getting information from user
 
-                System.out.println("Please choose destination country (.......)");
-                String destination = scanner.nextLine();
+                System.out.println("Please choose destination: FRANCE, GERMANY, ITALY, SPAIN, PORTUGAL");
+                String destination = scanner.nextLine().toUpperCase().trim();
+
+                //Validates do we provide this destination
+
+                if (DataValidation.getDestinationValidation(destination)==true){
+                    scanner.nextLine();
+                } else{
+                    System.out.println("Sorry, we cant provide trip to this destination");
+                }
+
+                System.out.println("Do you have Covid Pass certificate(TRUE/FALSE)");
+                String covidPass = scanner.next().toUpperCase().trim();
+
+                //Validates CovidPass requirements
+                if(DataValidation.getCovidPassValidation(covidPass, destination)==true){
                 scanner.nextLine();
-
-                // 1.  Need to transform information to small caps
-                // 2. Need to check does we have this destination in DB table Destinations
-                // 2.1. If yes then asks next questions
-                // 2.2. If not returns output that we cant provide trip to this country
-
-                System.out.println("Do you have Covid Pass certificate(y/n)");
-                char covidPass = scanner.next().charAt(0);
-                scanner.nextLine();
-
-                //1. Need to check destination country requirements
-                // 1.1 if equal then ask next questions
-                // 1.2 if not equal then return output "Sorry you cant travel to this country"
+                }else{
+                    System.out.println("Sorry, you cant travel to this destination without CovidPass certification!");
+                }
 
                 System.out.println("Please enter amount of adults");
                 int adults = scanner.nextInt();
