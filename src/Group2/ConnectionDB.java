@@ -24,33 +24,30 @@ public class ConnectionDB {
             Class.forName(JDBC_DRIVER);
 
             // STEP 2: Open a connection
-            System.out.println("Connecting to a selected database...");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
-
 
             // STEP 3: Execute a query
             stmt = conn.createStatement();
 
             // Getting Adult price from DB Flights
             String getAdultPriceSQL = "SELECT adultPrice FROM flights Where countryID=" +
-                    ("SELECT id FROM destinations WHERE country=" + destination);
+                    ("SELECT id FROM destination WHERE country='" + destination + "'");
 
             int adultPrice = stmt.executeUpdate(getAdultPriceSQL);
 
             // Getting Children price from DB Flights
             String getChildrenPriceSQL = "SELECT childrenprice FROM flights Where countryID=" +
-                    ("SELECT id FROM destinations WHERE country=" + destination);
+                    ("SELECT id FROM destinations WHERE country='" + destination + "'");
 
             int childrenPrice = stmt.executeUpdate(getChildrenPriceSQL);
 
             // Getting General price from DB Destination
-            String getGeneralPriceSQL = "SELECT generalprice FROM Destination Where destination=" + destination;
+            String getGeneralPriceSQL = "SELECT generalprice FROM Destination Where destination='" + destination + "'";
             int generalPrice = stmt.executeUpdate(getGeneralPriceSQL);
 
             // Getting Bulk price from DB Destination
-            String getBulkPriceSQL = "SELECT bulkprice FROM Destination Where destination=" + destination;
-            int bulkPrice = stmt.executeUpdate(getGeneralPriceSQL);
+            String getBulkPriceSQL = "SELECT bulkprice FROM Destination Where destination= '" + destination+ "'";
+            int bulkPrice = stmt.executeUpdate(getBulkPriceSQL);
 
             //Parsing the date
             LocalDate dateBefore = LocalDate.parse(dateFrom);
@@ -93,7 +90,6 @@ public class ConnectionDB {
                 se.printStackTrace();
             } // end finally try
         } // end try
-        System.out.println("Goodbye!");
 
     }
 
@@ -113,16 +109,13 @@ public class ConnectionDB {
             Class.forName(JDBC_DRIVER);
 
             // STEP 2: Open a connection
-            System.out.println("Connecting to a selected database...");
+
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
 
             // STEP 3: Execute a query
             stmt = conn.createStatement();
             String sql = "INSERT INTO History (destination, adults, children, dateFrom, dateTo, calculatedPrice) VALUES('" + destination + "'," + adults + "," + children + ",'" + dateFrom + "', '" + dateTo + "', " + travelPrice + ");";
             stmt.executeUpdate(sql);
-
-            System.out.println("Inserted records into history table...");
 
             // STEP 4: Clean-up environment
             stmt.close();
@@ -145,7 +138,6 @@ public class ConnectionDB {
                 se.printStackTrace();
             } // end finally try
         } // end try
-        System.out.println("Goodbye!");
     }
 
 
@@ -166,12 +158,10 @@ public class ConnectionDB {
             Class.forName(JDBC_DRIVER);
 
             // STEP 2: Open a connection
-            System.out.println("Connecting to a selected database...");
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
+
 
             // STEP 3: Execute a query
-            System.out.println("Connected database successfully...");
             stmt = conn.createStatement();
             String sql = "SELECT * FROM History";
             ResultSet rs = stmt.executeQuery(sql);
@@ -222,7 +212,6 @@ public class ConnectionDB {
                 se.printStackTrace();
             } // end finally try
         } // end try
-        System.out.println("Goodbye!");
 
     }
 }

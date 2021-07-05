@@ -66,7 +66,6 @@ public class DataValidation {
                 se.printStackTrace();
             } // end finally try
         } // end try
-        System.out.println("Goodbye!");
 
     }
 
@@ -87,20 +86,20 @@ public class DataValidation {
             Class.forName(JDBC_DRIVER);
 
             // STEP 2: Open a connection
-            System.out.println("Connecting to a selected database...");
+
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
+
 
             // STEP 3: Execute a query
             stmt = conn.createStatement();
-            String sql = "SELECT id FROM Destination WHERE country = " + country;
+            String sql = "SELECT ID FROM Destination WHERE country = '" + country + "'";
             ResultSet rs = stmt.executeQuery(sql);
 
-            stmt.executeUpdate(sql);
-            System.out.println("GET records from the table...");
+
 
             // While in table is ID then Destination is in table and returns true
             if (rs.next()){
+
                 isValid =  true;
             } else {
                 isValid = false;
@@ -127,7 +126,7 @@ public class DataValidation {
                 se.printStackTrace();
             } // end finally try
         } // end try
-        System.out.println("Goodbye!");
+
         return isValid;
     }
     public static boolean getCovidPassValidation(String covidPass,String country) {
@@ -138,6 +137,7 @@ public class DataValidation {
         //  Database credentials
         final String USER = "sa";
         final String PASS = "";
+        boolean isValid = false;
 
         Connection conn = null;
         Statement stmt = null;
@@ -146,22 +146,24 @@ public class DataValidation {
             Class.forName(JDBC_DRIVER);
 
             // STEP 2: Open a connection
-            System.out.println("Connecting to a selected database...");
+
             conn = DriverManager.getConnection(DB_URL, USER, PASS);
-            System.out.println("Connected database successfully...");
 
             // STEP 3: Execute a query
             stmt = conn.createStatement();
-            String sql = "SELECT Covidpass FROM Destination WHERE country = " + country;
-            ResultSet rs = stmt.executeQuery(sql);
-
-            stmt.executeUpdate(sql);
-            System.out.println("GET records from the table...");
+            String covidPassSql = "SELECT Covidpass FROM Destination WHERE country = '" + country + "'";
+            ResultSet covidPassDB = stmt.executeQuery(covidPassSql);
 
             // If CovidPass is TRUE for country then return true
 
-            if (covidPass=="TRUE") {
-                return true;}
+//            if ((covidPassDB.toString())!=covidPass) {
+//                return false;}
+
+            if ((covidPassDB.toString())!=covidPass){
+                isValid =  true;
+            } else {
+                isValid = false;
+            }
 
             // STEP 4: Clean-up environment
             stmt.close();
@@ -184,9 +186,7 @@ public class DataValidation {
                 se.printStackTrace();
             } // end finally try
         } // end try
-        System.out.println("Goodbye!");
-
-        return false;
+        return isValid;
     }
 }
 
