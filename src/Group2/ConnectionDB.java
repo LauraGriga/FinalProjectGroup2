@@ -33,7 +33,7 @@ public class ConnectionDB {
             String getAdultPriceSQL = "SELECT adultPrice FROM flights WHERE countryID=(SELECT id FROM destination WHERE country='" + destination + "')";
 
             ResultSet adultPrice = stmt.executeQuery(getAdultPriceSQL);
-            
+
             // Getting Children price from DB Flights
             String getChildrenPriceSQL = "SELECT childrenprice FROM flights WHERE countryID=(SELECT id FROM destination WHERE country='" + destination + "')";
 
