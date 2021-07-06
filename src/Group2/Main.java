@@ -39,11 +39,11 @@ public class Main {
                         int children = scanner.nextInt();
                         scanner.nextLine();
 
-                        System.out.println("Please enter date from (dd-mm-yyyy)");
+                        System.out.println("Please enter date from (yyyy-mm-dd)");
                         // Need to find format that helps calculate days between dates
                         String dateFrom = scanner.nextLine();
 
-                        System.out.println("Please enter date to (dd-mm-yyyy)");
+                        System.out.println("Please enter date to (yyyy-mm-dd)");
                         String dateTo = scanner.nextLine();
 
                         //returning information for user
