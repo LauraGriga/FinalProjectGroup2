@@ -30,19 +30,19 @@ public class ConnectionDB {
             stmt = conn.createStatement();
 
             // Getting Adult price from DB Flights
-            String getAdultPriceSQL = "SELECT adultPrice FROM flights Where countryID=" +
+            String getAdultPriceSQL = "SELECT adultPrice FROM flights WHERE countryID=" +
                     ("SELECT id FROM destination WHERE country='" + destination + "'");
 
             int adultPrice = stmt.executeUpdate(getAdultPriceSQL);
 
             // Getting Children price from DB Flights
-            String getChildrenPriceSQL = "SELECT childrenprice FROM flights Where countryID=" +
+            String getChildrenPriceSQL = "SELECT childrenprice FROM flights WHERE countryID=" +
                     ("SELECT id FROM destinations WHERE country='" + destination + "'");
 
             int childrenPrice = stmt.executeUpdate(getChildrenPriceSQL);
 
             // Getting General price from DB Destination
-            String getGeneralPriceSQL = "SELECT generalprice FROM Destination Where destination='" + destination + "'";
+            String getGeneralPriceSQL = "SELECT generalprice FROM Destination WHERE destination='" + destination + "'";
             int generalPrice = stmt.executeUpdate(getGeneralPriceSQL);
 
             // Getting Bulk price from DB Destination
