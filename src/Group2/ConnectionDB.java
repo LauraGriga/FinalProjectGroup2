@@ -30,24 +30,22 @@ public class ConnectionDB {
             stmt = conn.createStatement();
 
             // Getting Adult price from DB Flights
-            String getAdultPriceSQL = "SELECT adultPrice FROM flights WHERE countryID=" +
-                    ("SELECT id FROM destination WHERE country='" + destination + "'");
+            String getAdultPriceSQL = "SELECT adultPrice FROM flights WHERE countryID=(SELECT id FROM destination WHERE country='" + destination + "')";
 
-            int adultPrice = stmt.executeUpdate(getAdultPriceSQL);
+            ResultSet adultPrice = stmt.executeQuery(getAdultPriceSQL);
 
             // Getting Children price from DB Flights
-            String getChildrenPriceSQL = "SELECT childrenprice FROM flights WHERE countryID=" +
-                    ("SELECT id FROM destinations WHERE country='" + destination + "'");
+            String getChildrenPriceSQL = "SELECT childrenprice FROM flights WHERE countryID=(SELECT id FROM destination WHERE country='" + destination + "')";
 
-            int childrenPrice = stmt.executeUpdate(getChildrenPriceSQL);
+            ResultSet childrenPrice = stmt.executeQuery(getChildrenPriceSQL);
 
             // Getting General price from DB Destination
-            String getGeneralPriceSQL = "SELECT generalprice FROM Destination WHERE destination='" + destination + "'";
-            int generalPrice = stmt.executeUpdate(getGeneralPriceSQL);
+            String getGeneralPriceSQL = "SELECT generalprice FROM Destination WHERE country='" + destination + "'";
+            ResultSet generalPrice = stmt.executeQuery(getGeneralPriceSQL);
 
             // Getting Bulk price from DB Destination
-            String getBulkPriceSQL = "SELECT bulkprice FROM Destination Where destination= '" + destination+ "'";
-            int bulkPrice = stmt.executeUpdate(getBulkPriceSQL);
+            String getBulkPriceSQL = "SELECT bulkprice FROM Destination WHERE country= '" + destination+ "'";
+            ResultSet bulkPrice = stmt.executeQuery(getBulkPriceSQL);
 
             //Parsing the date
             LocalDate dateBefore = LocalDate.parse(dateFrom);
@@ -59,9 +57,9 @@ public class ConnectionDB {
 
             int travelPrice;
             if (tripDays < 5) {
-                travelPrice = (int) ((adultPrice * adults) + (childrenPrice * children) + (tripDays * generalPrice));
+                travelPrice = (int) ((adultPrice.getInt("adultPrice") * adults) + (childrenPrice.getInt("childrenPrice") * children) + (tripDays * generalPrice.getInt("generalPrice")));
             } else {
-                travelPrice = (int) ((adultPrice * adults) + (childrenPrice * children) + (tripDays * bulkPrice));
+                travelPrice = (int) ((adultPrice.getInt("AdultPrice") * adults) + (childrenPrice.getInt("childrenPrice") * children) + (tripDays * bulkPrice.getInt("bulkPrice")));
             }
 
             addHistory(destination, adults, children, dateFrom, dateTo, travelPrice);
