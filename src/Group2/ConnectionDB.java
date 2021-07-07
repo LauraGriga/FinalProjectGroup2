@@ -7,7 +7,7 @@ import java.time.temporal.ChronoUnit;
 public class ConnectionDB {
 
 
-    public static void calculatePrice(String destination, int adults, int children, String dateFrom, String dateTo) {
+    public static float calculatePrice(String destination, int adults, int children, String dateFrom, String dateTo) {
 
         // JDBC driver name and database URL
         final String JDBC_DRIVER = "org.h2.Driver";
@@ -53,7 +53,7 @@ public class ConnectionDB {
             //calculating number of days in between
             long tripDays = ChronoUnit.DAYS.between(dateBefore, dateAfter);
             //displaying the number of days
-            System.out.println(tripDays);
+            System.out.println("Number of trip days: " + tripDays);
 
             int travelPrice;
             if (tripDays < 5) {
@@ -62,7 +62,7 @@ public class ConnectionDB {
                 travelPrice = (int) ((adultPrice.getInt("AdultPrice") * adults) + (childrenPrice.getInt("childrenPrice") * children) + (tripDays * bulkPrice.getInt("bulkPrice")));
             }
 
-            addHistory(destination, adults, children, dateFrom, dateTo, travelPrice);
+//            addHistory(destination, adults, children, dateFrom, dateTo, travelPrice);
 
             System.out.println("Your travel will cost: " + travelPrice);
 
@@ -89,54 +89,9 @@ public class ConnectionDB {
             } // end finally try
         } // end try
 
+        return 0;
     }
 
-    public static void addHistory(String destination, int adults, int children, String dateFrom, String dateTo, int travelPrice) {
-        // JDBC driver name and database URL
-        final String JDBC_DRIVER = "org.h2.Driver";
-        final String DB_URL = "jdbc:h2:~/test";
-
-        //  Database credentials
-        final String USER = "sa";
-        final String PASS = "";
-
-        Connection conn = null;
-        Statement stmt = null;
-        try {
-            // STEP 1: Register JDBC driver
-            Class.forName(JDBC_DRIVER);
-
-            // STEP 2: Open a connection
-
-            conn = DriverManager.getConnection(DB_URL, USER, PASS);
-
-            // STEP 3: Execute a query
-            stmt = conn.createStatement();
-            String sql = "INSERT INTO History (destination, adults, children, dateFrom, dateTo, calculatedPrice) VALUES('" + destination + "'," + adults + "," + children + ",'" + dateFrom + "', '" + dateTo + "', " + travelPrice + ");";
-            stmt.executeUpdate(sql);
-
-            // STEP 4: Clean-up environment
-            stmt.close();
-            conn.close();
-        } catch (SQLException se) {
-            // Handle errors for JDBC
-            se.printStackTrace();
-        } catch (Exception e) {
-            // Handle errors for Class.forName
-            e.printStackTrace();
-        } finally {
-            // finally block used to close resources
-            try {
-                if (stmt != null) stmt.close();
-            } catch (SQLException se2) {
-            } // nothing we can do
-            try {
-                if (conn != null) conn.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            } // end finally try
-        } // end try
-    }
 
 
     public static void viewHistory() {
@@ -168,7 +123,7 @@ public class ConnectionDB {
             while (rs.next()) {
                 // Retrieve by column name
                 int id = rs.getInt("id");
-                String destination = rs.getString("destination");
+                String destination = rs.getString("country");
                 int adults = rs.getInt("adults");
                 int children = rs.getInt("children");
                 String dateFrom = rs.getString("dateFrom");
@@ -211,5 +166,52 @@ public class ConnectionDB {
             } // end finally try
         } // end try
 
+    }
+
+    public static void addHistory(String destination, int adults, int children, String dateFrom, String dateTo, float travelPrice) {
+        // JDBC driver name and database URL
+        final String JDBC_DRIVER = "org.h2.Driver";
+        final String DB_URL = "jdbc:h2:~/test";
+
+        //  Database credentials
+        final String USER = "sa";
+        final String PASS = "";
+
+        Connection conn = null;
+        Statement stmt = null;
+        try {
+            // STEP 1: Register JDBC driver
+            Class.forName(JDBC_DRIVER);
+
+            // STEP 2: Open a connection
+
+            conn = DriverManager.getConnection(DB_URL, USER, PASS);
+
+            // STEP 3: Execute a query
+            stmt = conn.createStatement();
+            String sql = "INSERT INTO History (country, adults, children, dateFrom, dateTo, calculatedPrice) VALUES('" + destination + "'," + adults + "," + children + ",'" + dateFrom + "', '" + dateTo + "', " + travelPrice + ");";
+            stmt.executeUpdate(sql);
+
+            // STEP 4: Clean-up environment
+            stmt.close();
+            conn.close();
+        } catch (SQLException se) {
+            // Handle errors for JDBC
+            se.printStackTrace();
+        } catch (Exception e) {
+            // Handle errors for Class.forName
+            e.printStackTrace();
+        } finally {
+            // finally block used to close resources
+            try {
+                if (stmt != null) stmt.close();
+            } catch (SQLException se2) {
+            } // nothing we can do
+            try {
+                if (conn != null) conn.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            } // end finally try
+        }
     }
 }

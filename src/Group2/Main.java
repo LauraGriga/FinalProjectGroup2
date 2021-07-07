@@ -1,7 +1,21 @@
 package Group2;
 
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.*;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
 
 public class Main {
 
@@ -48,6 +62,12 @@ public class Main {
 
                         //returning information for user
                         ConnectionDB.calculatePrice(destination, adults, children, dateFrom, dateTo);
+                        float calculatePrice =  ConnectionDB.calculatePrice(destination, adults, children, dateFrom, dateTo);
+                        System.out.println(" Calculated price : " + calculatePrice);
+                        ConnectionDB.addHistory(destination, adults, children, dateFrom, dateTo, calculatePrice);
+
+
+
                     }else {
                         System.out.println("Sorry, you cant travel to this destination without CovidPass certification!");
                     }
@@ -70,7 +90,10 @@ public class Main {
         } while (again == 'y');
 
     }
-}
+
+    }
+
+
 
 
 

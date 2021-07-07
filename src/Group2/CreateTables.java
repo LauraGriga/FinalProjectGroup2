@@ -59,8 +59,8 @@ import java.sql.Statement;
                     " country VARCHAR(255), " +
                     " adults INT, " +
                     " children INT, " +
-                    " dateTO DATE, " +
-                    " dateFrom DATE, " +
+                    " dateFrom text, " +
+                    " dateTo text, " +
                     " calculatedPrice DECIMAL, " +
                     " PRIMARY KEY (id))";
             stmt.executeUpdate(sql2);
