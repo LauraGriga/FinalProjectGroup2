@@ -89,13 +89,25 @@ public class DataValidation {
             String covidPassSql = "SELECT Covidpass FROM Destination WHERE country = '" + country + "'";
             ResultSet covidPassDB = stmt.executeQuery(covidPassSql);
 
-            // If CovidPass is TRUE for country then return true
+            while(covidPassDB.next()) {
+                String covidPassFromDB = covidPassDB.getString("covidpass");
 
-            if ((covidPassDB.toString())!=covidPass){
-                isValid =  true;
-            } else {
-                isValid = false;
+                // If CovidPass is TRUE for country then return true
+
+                if ((covidPass).equals(covidPassFromDB)){
+                    isValid =  true;
+
+                } else if (!(covidPass).equals(covidPassFromDB)){
+                    if (covidPassFromDB.equals("FALSE")){
+                        isValid =  true;
+
+                    }else {
+                        isValid = false;
+                    }
+                }
+
             }
+
 
             // STEP 4: Clean-up environment
             stmt.close();

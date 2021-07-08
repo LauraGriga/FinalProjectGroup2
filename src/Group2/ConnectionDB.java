@@ -3,6 +3,7 @@ package Group2;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.math.BigDecimal;
 
 public class ConnectionDB {
 
@@ -19,6 +20,13 @@ public class ConnectionDB {
 
         Connection conn = null;
         Statement stmt = null;
+
+        BigDecimal aP = new BigDecimal("0.00");
+        BigDecimal cP = new BigDecimal("0.00");
+        BigDecimal gP = new BigDecimal("0.00");
+        BigDecimal bP = new BigDecimal("0.00");
+        float travelPrice = 0.0f;
+
         try {
             // STEP 1: Register JDBC driver
             Class.forName(JDBC_DRIVER);
@@ -34,18 +42,40 @@ public class ConnectionDB {
 
             ResultSet adultPrice = stmt.executeQuery(getAdultPriceSQL);
 
+            while(adultPrice.next()) {
+                // Retrieve by column name
+                aP = adultPrice.getBigDecimal("adultPrice");
+                System.out.println("Adult price" + aP);}
+
             // Getting Children price from DB Flights
             String getChildrenPriceSQL = "SELECT childrenprice FROM flights WHERE countryID=(SELECT id FROM destination WHERE country='" + destination + "')";
 
             ResultSet childrenPrice = stmt.executeQuery(getChildrenPriceSQL);
 
+            while(childrenPrice.next()) {
+                // Retrieve by column name
+                cP = childrenPrice.getBigDecimal("childrenPrice");
+                System.out.println("Children price " + cP);
+            }
+
             // Getting General price from DB Destination
             String getGeneralPriceSQL = "SELECT generalprice FROM Destination WHERE country='" + destination + "'";
             ResultSet generalPrice = stmt.executeQuery(getGeneralPriceSQL);
 
+            while(generalPrice.next()) {
+                // Retrieve by column name
+                gP= generalPrice.getBigDecimal("generalPrice");
+                System.out.println("General price " + gP);
+            }
+
             // Getting Bulk price from DB Destination
             String getBulkPriceSQL = "SELECT bulkprice FROM Destination WHERE country= '" + destination+ "'";
             ResultSet bulkPrice = stmt.executeQuery(getBulkPriceSQL);
+            while(bulkPrice.next()) {
+                // Retrieve by column name
+                bP = bulkPrice.getBigDecimal("bulkPrice");
+                System.out.println("Bulk price " + bP);
+            }
 
             //Parsing the date
             LocalDate dateBefore = LocalDate.parse(dateFrom);
@@ -55,16 +85,11 @@ public class ConnectionDB {
             //displaying the number of days
             System.out.println("Number of trip days: " + tripDays);
 
-            int travelPrice;
             if (tripDays < 5) {
-                travelPrice = (int) ((adultPrice.getInt("adultPrice") * adults) + (childrenPrice.getInt("childrenPrice") * children) + (tripDays * generalPrice.getInt("generalPrice")));
+                travelPrice = (aP.floatValue() * adults) + (cP.floatValue() * children) + (tripDays * gP.floatValue());
             } else {
-                travelPrice = (int) ((adultPrice.getInt("AdultPrice") * adults) + (childrenPrice.getInt("childrenPrice") * children) + (tripDays * bulkPrice.getInt("bulkPrice")));
+                travelPrice = (aP.floatValue() * adults) + (cP.floatValue() * children) + (tripDays * bP.floatValue());
             }
-
-//            addHistory(destination, adults, children, dateFrom, dateTo, travelPrice);
-
-            System.out.println("Your travel will cost: " + travelPrice);
 
 
             // STEP 4: Clean-up environment
@@ -89,7 +114,7 @@ public class ConnectionDB {
             } // end finally try
         } // end try
 
-        return 0;
+        return travelPrice;
     }
 
 
