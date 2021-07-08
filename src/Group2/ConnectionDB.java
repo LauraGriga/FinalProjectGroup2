@@ -45,7 +45,8 @@ public class ConnectionDB {
             while(adultPrice.next()) {
                 // Retrieve by column name
                 aP = adultPrice.getBigDecimal("adultPrice");
-                System.out.println("Adult price" + aP);}
+//                System.out.println("Adult price" + aP);
+            }
 
             // Getting Children price from DB Flights
             String getChildrenPriceSQL = "SELECT childrenprice FROM flights WHERE countryID=(SELECT id FROM destination WHERE country='" + destination + "')";
@@ -55,7 +56,7 @@ public class ConnectionDB {
             while(childrenPrice.next()) {
                 // Retrieve by column name
                 cP = childrenPrice.getBigDecimal("childrenPrice");
-                System.out.println("Children price " + cP);
+//                System.out.println("Children price " + cP);
             }
 
             // Getting General price from DB Destination
@@ -65,7 +66,7 @@ public class ConnectionDB {
             while(generalPrice.next()) {
                 // Retrieve by column name
                 gP= generalPrice.getBigDecimal("generalPrice");
-                System.out.println("General price " + gP);
+//                System.out.println("General price " + gP);
             }
 
             // Getting Bulk price from DB Destination
@@ -74,7 +75,7 @@ public class ConnectionDB {
             while(bulkPrice.next()) {
                 // Retrieve by column name
                 bP = bulkPrice.getBigDecimal("bulkPrice");
-                System.out.println("Bulk price " + bP);
+//                System.out.println("Bulk price " + bP);
             }
 
             //Parsing the date
@@ -82,8 +83,7 @@ public class ConnectionDB {
             LocalDate dateAfter = LocalDate.parse(dateTo);
             //calculating number of days in between
             long tripDays = ChronoUnit.DAYS.between(dateBefore, dateAfter);
-            //displaying the number of days
-            System.out.println("Number of trip days: " + tripDays);
+
 
             if (tripDays < 5) {
                 travelPrice = (aP.floatValue() * adults) + (cP.floatValue() * children) + (tripDays * gP.floatValue());
